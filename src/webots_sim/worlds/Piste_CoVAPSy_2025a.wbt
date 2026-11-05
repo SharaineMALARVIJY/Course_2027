@@ -2247,9 +2247,9 @@ TT02_2025a {
   controller "<extern>"
   color 0.69 0.7 0.2
 }
-# TT02_2025a {
-#   translation -1 -2 0.04
-#   name "blue_car"
-#   controller "<extern>"
-#   color 0 0 0.9
-# }
+TT02_2025a {
+  translation -1 -2 0.04
+  name "blue_car"
+  controller "<extern>"
+  color 0 0 0.9
+}

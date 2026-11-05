@@ -96,15 +96,15 @@ def generate_launch_description():
         urdf_path=blue_urdf_path,
     )
 
-    car_odometry_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                get_package_share_directory('car_odometry'),
-                'launch',
-                'car_odometry.launch.py'
-            )
-        )
-    )
+    # car_odometry_launch = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         os.path.join(
+    #             get_package_share_directory('car_odometry'),
+    #             'launch',
+    #             'car_odometry.launch.py'
+    #         )
+    #     )
+    # )
 
     front_scan_filter = Node(
         package='car_rosconfr',
@@ -127,12 +127,12 @@ def generate_launch_description():
         webots._supervisor, # ajoute le topic /clock 
 
         yellow_webots_bridge,
-        # blue_webots_bridge,
+        blue_webots_bridge,
 
         yellow_state_publisher,
-        # blue_state_publisher,
+        blue_state_publisher,
 
-        car_odometry_launch,
+        # car_odometry_launch,
         front_scan_filter,
 
         shutdown_on_webots_exit,

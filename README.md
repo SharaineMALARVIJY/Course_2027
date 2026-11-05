@@ -29,7 +29,7 @@ Téléoperation
 ```bash
 ros2 launch car_rosconfr teleop_ps4.launch.py
 
-ros2 run car_rosconfr
+ros2 run car_rosconfr teleop_ackermann
 ```
 
 Algorithme réactif:
