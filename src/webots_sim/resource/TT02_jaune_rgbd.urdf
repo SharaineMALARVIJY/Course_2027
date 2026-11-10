@@ -58,7 +58,18 @@
                 <alwaysOn>true</alwaysOn>
             </ros>
         </device>
+
+        <!-- Nuage de points RGBD coloré -->
+        <plugin type="webots_ros2_driver::Ros2RGBD">
+            <camera>front_camera</camera>
+            <rangeFinder>front_depth</rangeFinder>
+            <topicName>/yellow_car/camera/colored_points</topicName>
+            <frameName>camera_link</frameName>
+            <updateRate>5</updateRate>
+        </plugin>
     </webots>
+
+    
 
     <link name="base_link">
         <visual>
