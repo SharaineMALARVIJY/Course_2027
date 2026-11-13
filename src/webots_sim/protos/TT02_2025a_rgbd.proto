@@ -89,6 +89,7 @@ PROTO TT02_2025a_rgbd [
         fieldOfView 1.047
         width 640
         height 480
+        noise 0.03
         near 0.01
       }
       RangeFinder {
@@ -98,6 +99,7 @@ PROTO TT02_2025a_rgbd [
         fieldOfView 1.047
         width 640
         height 480
+        noise 0.03
         near 0.05
         minRange 0.1
         maxRange 6.0

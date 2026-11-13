@@ -37,7 +37,7 @@
         <device reference="front_camera" type="Camera">
             <ros>
                 <enabled>true</enabled>
-                <updateRate>5</updateRate>
+                <updateRate>15</updateRate>
                 <topicName>/yellow_car/image_raw</topicName>
                 <cameraInfoTopicName>/yellow_car/camera_info</cameraInfoTopicName>
                 <frameName>camera_link</frameName>
@@ -49,7 +49,7 @@
         <device reference="front_depth" type="RangeFinder">
             <ros>
                 <enabled>true</enabled>
-                <updateRate>5</updateRate>
+                <updateRate>15</updateRate>
                 <topicName>/yellow_car/camera/depth</topicName>
                 <imageSuffix>/image_raw</imageSuffix>
                 <cameraInfoSuffix>/camera_info</cameraInfoSuffix>
@@ -65,7 +65,7 @@
             <rangeFinder>front_depth</rangeFinder>
             <topicName>/yellow_car/camera/colored_points</topicName>
             <frameName>camera_link</frameName>
-            <updateRate>5</updateRate>
+            <updateRate>15</updateRate>
         </plugin>
     </webots>
 
@@ -135,6 +135,14 @@
         <parent link="base_link"/>
         <child link="camera_link"/>
         <origin xyz="0.245 0 0.105" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Repère optique de la caméra RGBD d'après la doc realsense -->
+    <link name="camera_optical_frame"/>
+    <joint name="camera_optical_joint" type="fixed">
+        <parent link="camera_link"/>
+        <child link="camera_optical_frame"/>
+        <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679"/>
     </joint>
 
     <link name="front_left_steering_link"/>
