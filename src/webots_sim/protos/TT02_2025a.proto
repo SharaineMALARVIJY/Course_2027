@@ -20,6 +20,10 @@ PROTO TT02_2025a [
   field SFFloat    lidarResolution           0.01          # Is `Lidar.resolution`.
   field SFFloat    lidarDefaultFrequency     12            # Is `Lidar.defaultFrequency`.
   field SFFloat    lidarFieldOfView          6.14159       # Is `Lidar.fieldOfView`.
+  field SFBool     enableCamera              FALSE         # Enables the front RGB camera.
+  field SFBool     enableDepth               FALSE         # Enables the front depth RangeFinder (requires enableCamera).
+  field SFFloat    cameraNoise               0.0           # Noise level of the front RGB camera.
+  field SFFloat    depthNoise                0.03          # Noise level of the front depth sensor.
 ]
 {
   Car {
@@ -82,6 +86,49 @@ PROTO TT02_2025a [
         translation 0.257 0 0
         name "TT02_speaker"
       }
+      %{ if fields.enableCamera.value then }%
+      Camera {
+        translation 0.245 0 0.105
+        rotation 0 1 0 0
+        name "front_camera"
+        fieldOfView 1.047
+        width 640
+        height 480
+        noise IS cameraNoise
+        near 0.01
+      }
+      Transform {
+        translation 0.247 0 0.105
+        rotation 0 1 0 0
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 1 0 0
+              roughness 0.5
+              metalness 0
+            }
+            geometry Box {
+              size 0.025 0.035 0.006
+            }
+            castShadows FALSE
+          }
+        ]
+      }
+      %{ end }%
+      %{ if fields.enableCamera.value and fields.enableDepth.value then }%
+      RangeFinder {
+        translation 0.245 0 0.105
+        rotation 0 1 0 0
+        name "front_depth"
+        fieldOfView 1.047
+        width 640
+        height 480
+        noise IS depthNoise
+        near 0.05
+        minRange 0.1
+        maxRange 6.0
+      }
+      %{ end }%
       Lidar {
         translation 0.21 0 0.079
         children [
