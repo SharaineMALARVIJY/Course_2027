@@ -36,6 +36,7 @@ setup(
             'simple_reactive_with_recovery_node = ' + package_name + '.simple_reactive_with_recovery_node:main',
             'unified_potential_field_navigator = ' + package_name + '.unified_potential_field_navigator:main',
             'car_realsense_nuage_bridge = ' + package_name + '.car_realsense_nuage_bridge:main',
+            'follow_gap_3d = ' + package_name + '.follow_gap_3d:main',
         ],
     },
 )
