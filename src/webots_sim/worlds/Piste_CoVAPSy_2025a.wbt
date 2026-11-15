@@ -2246,6 +2246,10 @@ TT02_2025a {
   name "yellow_car"
   controller "<extern>"
   color 0.69 0.7 0.2
+  enableCamera TRUE
+  enableDepth TRUE
+  cameraNoise 0.02
+  depthNoise 0.03
 }
 TT02_2025a {
   translation -1 -2 0.04
