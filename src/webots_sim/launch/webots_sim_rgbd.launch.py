@@ -2,9 +2,13 @@ import os
 
 import launch
 from launch import LaunchDescription
-from launch.actions import RegisterEventHandler, EmitEvent
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import (
+    RegisterEventHandler,
+    EmitEvent,
+    DeclareLaunchArgument,
+)
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration
 from launch.event_handlers import OnProcessExit
 
 from launch_ros.actions import Node
@@ -12,13 +16,12 @@ from ament_index_python.packages import get_package_share_directory
 
 from webots_ros2_driver.webots_launcher import WebotsLauncher
 from webots_ros2_driver.webots_controller import WebotsController
-# from webots_ros2_driver.ros2_supervisor import Ros2SupervisorLauncher
 
-def make_webots_controller(robot_name, urdf_path, bridge_node_name, params_path=None):
+
+def make_webots_controller(robot_name, urdf_path, bridge_node_name,
+                           params_path=None, condition=None):
     parameters = [
-        {
-            'robot_description': urdf_path,
-        },
+        {'robot_description': urdf_path},
     ]
 
     if params_path is not None:
@@ -31,10 +34,11 @@ def make_webots_controller(robot_name, urdf_path, bridge_node_name, params_path=
             ('__node', bridge_node_name),
         ],
         respawn=True,
+        condition=condition,
     )
 
 
-def make_robot_state_publisher(robot_name, urdf_path):
+def make_robot_state_publisher(robot_name, urdf_path, condition=None):
     with open(urdf_path, 'r') as file:
         robot_description = file.read()
 
@@ -48,23 +52,49 @@ def make_robot_state_publisher(robot_name, urdf_path):
             {'use_sim_time': True},
         ],
         output='screen',
+        condition=condition,
     )
 
 
 def generate_launch_description():
     package_dir = get_package_share_directory('webots_sim')
 
+    # ==================== ARGUMENTS ====================
+
+    use_yellow = LaunchConfiguration('use_yellow')
+    use_blue = LaunchConfiguration('use_blue')
+
+    declare_use_yellow = DeclareLaunchArgument(
+        'use_yellow',
+        default_value='true',
+        description='Lancer la voiture jaune'
+    )
+
+    declare_use_blue = DeclareLaunchArgument(
+        'use_blue',
+        default_value='false',
+        description='Lancer la voiture bleue'
+    )
+
+    # ==================== PATHS ====================
+
     world_path = os.path.join(
-        package_dir, 'worlds', 'Piste_CoVAPSy_2025a_rgbd.wbt')
+        package_dir, 'worlds', 'Piste_CoVAPSy_2025a_rgbd.wbt'
+    )
 
     yellow_urdf_path = os.path.join(
-        package_dir, 'resource', 'TT02_jaune_rgbd.urdf')
+        package_dir, 'resource', 'TT02_jaune_rgbd.urdf'
+    )
 
     yellow_driver_params_path = os.path.join(
-        package_dir, 'config', 'yellow_driver_params.yaml')
+        package_dir, 'config', 'yellow_driver_params.yaml'
+    )
 
     blue_urdf_path = os.path.join(
-        package_dir, 'resource', 'TT02_bleu.urdf')
+        package_dir, 'resource', 'TT02_bleu.urdf'
+    )
+
+    # ==================== WEBOTS ====================
 
     webots = WebotsLauncher(
         world=world_path,
@@ -73,38 +103,38 @@ def generate_launch_description():
         gui=True,
     )
 
+    # ==================== CONTROLLERS ====================
+
     yellow_webots_bridge = make_webots_controller(
         robot_name='yellow_car',
         urdf_path=yellow_urdf_path,
         bridge_node_name='yellow_webots_bridge',
         params_path=yellow_driver_params_path,
+        condition=IfCondition(use_yellow),
     )
 
     blue_webots_bridge = make_webots_controller(
         robot_name='blue_car',
         urdf_path=blue_urdf_path,
         bridge_node_name='blue_webots_bridge',
+        condition=IfCondition(use_blue),
     )
+
+    # ==================== STATE PUBLISHERS ====================
 
     yellow_state_publisher = make_robot_state_publisher(
         robot_name='yellow_car',
         urdf_path=yellow_urdf_path,
+        condition=IfCondition(use_yellow),
     )
 
     blue_state_publisher = make_robot_state_publisher(
         robot_name='blue_car',
         urdf_path=blue_urdf_path,
+        condition=IfCondition(use_blue),
     )
 
-    # car_odometry_launch = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(
-    #             get_package_share_directory('car_odometry'),
-    #             'launch',
-    #             'car_odometry.launch.py'
-    #         )
-    #     )
-    # )
+    # ==================== AUTRES NŒUDS ====================
 
     front_scan_filter = Node(
         package='car_rosconfr',
@@ -112,6 +142,8 @@ def generate_launch_description():
         name='front_scan_filter',
         output='screen',
     )
+
+    # ==================== SHUTDOWN ====================
 
     shutdown_on_webots_exit = RegisterEventHandler(
         event_handler=OnProcessExit(
@@ -122,9 +154,14 @@ def generate_launch_description():
         )
     )
 
+    # ==================== LAUNCH ====================
+
     return LaunchDescription([
+        declare_use_yellow,
+        declare_use_blue,
+
         webots,
-        webots._supervisor, # ajoute le topic /clock 
+        webots._supervisor,
 
         yellow_webots_bridge,
         blue_webots_bridge,
@@ -132,7 +169,6 @@ def generate_launch_description():
         yellow_state_publisher,
         blue_state_publisher,
 
-        # car_odometry_launch,
         front_scan_filter,
 
         shutdown_on_webots_exit,
