@@ -86,9 +86,9 @@ PROTO TT02_2025a_rgbd [
         translation 0.245 0 0.105
         rotation 0 1 0 0
         name "front_camera"
-        fieldOfView 1.047
+        fieldOfView 1.576
         width 640
-        height 480
+        height 360
         noise 0.03
         near 0.01
       }
@@ -96,9 +96,9 @@ PROTO TT02_2025a_rgbd [
         translation 0.245 0 0.105
         rotation 0 1 0 0
         name "front_depth"
-        fieldOfView 1.047
+        fieldOfView 1.576
         width 640
-        height 480
+        height 360
         noise 0.03
         near 0.05
         minRange 0.1
