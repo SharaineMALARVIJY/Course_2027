@@ -96,6 +96,16 @@ def generate_launch_description():
         urdf_path=blue_urdf_path,
     )
 
+    # Superviseur RL (service /rl/reset)
+    rl_supervisor_urdf_path = os.path.join(
+        package_dir, 'resource', 'rl_supervisor.urdf'
+    )
+    rl_supervisor_bridge = WebotsController(
+        robot_name='rl_supervisor',
+        parameters=[{'robot_description': rl_supervisor_urdf_path}],
+        respawn=True,
+    )
+
     # car_odometry_launch = IncludeLaunchDescription(
     #     PythonLaunchDescriptionSource(
     #         os.path.join(
@@ -128,6 +138,7 @@ def generate_launch_description():
 
         yellow_webots_bridge,
         blue_webots_bridge,
+        rl_supervisor_bridge,
 
         yellow_state_publisher,
         blue_state_publisher,

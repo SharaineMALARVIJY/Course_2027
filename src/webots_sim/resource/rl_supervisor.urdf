@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<robot name="rl_supervisor">
+  <webots>
+    <plugin type="webots_sim.rl_supervisor.RLSupervisor" />
+  </webots>
+  <link name="base_link" />
+</robot>
