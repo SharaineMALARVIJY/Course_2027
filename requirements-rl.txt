@@ -1,0 +1,7 @@
+# Dépendances RL partagées (Kubuntu 24.04 / Python 3.12)
+# PyTorch est installé séparément (CUDA ou CPU), voir README.md.
+numpy==1.26.4
+gymnasium==1.1.1
+stable-baselines3==2.7.0
+tensorboard==2.19.0
+matplotlib==3.10.3

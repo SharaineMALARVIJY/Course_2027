@@ -1,39 +1,10 @@
-# macOS
 .DS_Store
-
-# Python
 __pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-
-# Virtual environments
-.venv/
-.venv-*/
-venv/
-
-# ROS 2 / Colcon
 build/
-install/
 log/
+install/
 
-# Reinforcement Learning
-rl/models/
-rl/tb/
-rl/checkpoints/
-PPO_Tensorboard/
-*.pth
-*.pt
-
-# Logs
-*.log
-
-# IDE
-.vscode/
-.idea/
-
-# Temporary files
-*.swp
-*.swo
-*~
+.venv-rl/
+*.py[cod]
+runs/
+logs/
