@@ -38,5 +38,31 @@ ros2 run car_rosconfr follow_gap_blue
 ros2 run car_rosconfr dial_nav_blue
 ros2 run car_rosconfr simple_reactive_with_recovery_node
 ```
+## Intel RealSense D435i — Debug
 
+The RealSense D435i can be launched independently of Webots
+using the official ROS 2 RealSense driver.
 
+### Launch camera
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+ros2 launch car_rosconfr realsense_debug.launch.py
+```
+
+### Inspect camera topics
+
+```bash
+ros2 topic list -t | grep camera
+```
+
+### Visualize point cloud
+
+```bash
+rviz2
+```
+
+The RealSense launch configuration is located at:
+`src/car_rosconfr/launch/realsense_debug.launch.py`
