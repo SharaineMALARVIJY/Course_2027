@@ -27,7 +27,7 @@
         </device>
 
         <device reference="inertial_unit" type="InertialUnit">
-            <ros>code ~/course_2027_ws/src/webots_sim/resource/TT02_jaune_rgbd.urdf
+            <ros>
                 <topicName>/yellow_car/imu/orientation</topicName>
                 <frameName>base_link</frameName>
                 <alwaysOn>true</alwaysOn>
@@ -38,9 +38,10 @@
             <ros>
                 <enabled>true</enabled>
                 <updateRate>15</updateRate>
-                <topicName>/yellow_car/image_raw</topicName>
-                <cameraInfoTopicName>/yellow_car/camera_info</cameraInfoTopicName>
-                <frameName>camera_link</frameName>
+                <topicName>/yellow_car/camera/color</topicName>
+                <imageSuffix>/image_raw</imageSuffix>
+                <cameraInfoSuffix>/camera_info</cameraInfoSuffix>
+                <frameName>camera_optical_frame</frameName>
                 <alwaysOn>true</alwaysOn>
             </ros>
         </device>
@@ -54,7 +55,7 @@
                 <imageSuffix>/image_raw</imageSuffix>
                 <cameraInfoSuffix>/camera_info</cameraInfoSuffix>
                 <pointCloudSuffix>/points</pointCloudSuffix>
-                <frameName>camera_link</frameName>
+                <frameName>camera_optical_frame</frameName>
                 <alwaysOn>true</alwaysOn>
             </ros>
         </device>
