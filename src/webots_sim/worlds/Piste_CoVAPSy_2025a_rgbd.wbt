@@ -2247,6 +2247,6 @@ TT02_2025a_rgbd {
 TT02_2025a {
   translation -1 -2 0.04
   name "blue_car"
-  controller "<extern>"
+  controller "<none>"
   color 0 0 0.9
 }
