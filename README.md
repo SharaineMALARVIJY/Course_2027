@@ -1,5 +1,11 @@
 # Course 2027
 
+### Installation sur macOS en natif
+
+Pour installer **ROS 2 Jazzy** et **Webots** en natif sur Mac Apple Silicon (sans VM ni Docker), suivez les scripts et guides (installation automatisée) sur ce dépôt :
+👉 [floriantholin/ros2-jazzy-webots-macos](https://github.com/floriantholin/ros2-jazzy-webots-macos)
+
+
 ### Changer les perfs
 
 Dans le fichier worlds/Piste_CoVAPSy_2025a.wbt il faut changer 
